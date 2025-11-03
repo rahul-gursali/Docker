@@ -1,0 +1,11 @@
+# Stage 1: Build Java app
+FROM openjdk:17-jdk AS build
+WORKDIR /workspace
+COPY . .
+RUN javac HelloWorld.java
+
+# Stage 2: Run
+FROM openjdk:17-jre-slim
+WORKDIR /workspace
+COPY --from=build /workspace/HelloWorld.class .
+CMD ["java", "HelloWorld"]
